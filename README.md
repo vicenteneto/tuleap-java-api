@@ -3,6 +3,7 @@
 [![GitHub Release](https://img.shields.io/github/release/vicenteneto/tuleap-java-api.svg)](https://github.com/vicenteneto/tuleap-java-api/latest)
 [![Build Status](https://travis-ci.org/vicenteneto/tuleap-java-api.svg?branch=master)](https://travis-ci.org/vicenteneto/tuleap-java-api)
 [![License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/vicenteneto/tuleap-java-api/blob/master/LICENSE)
+[![](https://jitpack.io/v/vicenteneto/tuleap-java-api.svg)](https://jitpack.io/#vicenteneto/tuleap-java-api)
 
 This project is a Java library for communicating with [Tuleap](https://www.tuleap.org/) REST API. Tuleap is a free and Open Source Suite to improve management of software projects and connect with team members. With a single web-based solution, CTO, project managers, developers, quality managers and other users can easily build, deploy smart and quality projects ([see more](https://tuleap.net/doc/en/)).
 

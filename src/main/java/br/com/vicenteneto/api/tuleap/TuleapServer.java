@@ -14,12 +14,15 @@ import com.mashape.unirest.http.HttpResponse;
 
 import br.com.vicenteneto.api.tuleap.client.TuleapClient;
 import br.com.vicenteneto.api.tuleap.domain.Project;
+import br.com.vicenteneto.api.tuleap.domain.User;
 import br.com.vicenteneto.api.tuleap.exceptions.TuleapClientException;
 import br.com.vicenteneto.api.tuleap.exceptions.TuleapServerException;
 import br.com.vicenteneto.api.tuleap.util.ConfigurationUtil;
 
 public class TuleapServer {
 
+	private static final String SPACE = " ";
+	private static final String QUERY = ConfigurationUtil.getConfiguration("QUERY");
 	private static final String LIMIT = ConfigurationUtil.getConfiguration("LIMIT");
 	private static final String OFFSET = ConfigurationUtil.getConfiguration("OFFSET");
 
@@ -85,6 +88,52 @@ public class TuleapServer {
 			}
 
 			return gson.fromJson(response.getBody(), Project.class);
+		} catch (TuleapClientException exception) {
+			throw new TuleapServerException(exception);
+		}
+	}
+
+	public List<User> getUsers(String query, int limit, int offset) throws TuleapServerException {
+		query = query.replaceAll("^\\s+", ""); // Left trim
+		query = query.replaceAll("\\s+$", ""); // Right trim
+		String[] split = query.split(SPACE);
+		if (split.length == 0 || (split.length == 1 && split[0].length() < 3)) {
+			String message = ConfigurationUtil.getConfiguration("QUERY_CHARACTERS_REQUIRED");
+			throw new TuleapServerException(message);
+		}
+
+		if (offset < 0) {
+			String message = ConfigurationUtil.getConfiguration("OFFSET_MUST_NOT_BE_NEGATIVE");
+			throw new TuleapServerException(message);
+		}
+
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put(QUERY, query);
+			parameters.put(LIMIT, limit);
+			parameters.put(OFFSET, offset);
+
+			String url = ConfigurationUtil.getConfiguration("URL_API_USERS");
+			HttpResponse<String> response = tuleapClient.get(url, parameters);
+
+			User[] users = gson.fromJson(response.getBody(), User[].class);
+			return Arrays.asList(users);
+		} catch (TuleapClientException exception) {
+			throw new TuleapServerException(exception);
+		}
+	}
+
+	public User getUser(int id) throws TuleapServerException {
+		try {
+			String url = String.format(ConfigurationUtil.getConfiguration("URL_API_USERS_ID"), id);
+			HttpResponse<String> response = tuleapClient.get(url);
+
+			if (response.getStatus() == HttpStatus.SC_NOT_FOUND) {
+				String message = ConfigurationUtil.getConfiguration("USER_NOT_FOUND");
+				throw new TuleapServerException(message);
+			}
+
+			return gson.fromJson(response.getBody(), User.class);
 		} catch (TuleapClientException exception) {
 			throw new TuleapServerException(exception);
 		}

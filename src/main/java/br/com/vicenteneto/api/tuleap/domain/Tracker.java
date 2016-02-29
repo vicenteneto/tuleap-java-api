@@ -1,11 +1,15 @@
 package br.com.vicenteneto.api.tuleap.domain;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Tracker {
 
 	private int id;
 	private String label;
 	private String description;
+	@SerializedName("item_name")
 	private String itemName;
+	@SerializedName("html_url")
 	private String htmlURL;
 	private String uri;
 	private Project project;

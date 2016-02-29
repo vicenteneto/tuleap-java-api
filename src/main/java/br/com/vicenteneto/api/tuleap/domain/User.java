@@ -1,16 +1,24 @@
 package br.com.vicenteneto.api.tuleap.domain;
 
+import com.google.gson.annotations.SerializedName;
+
 public class User {
 
 	private int id;
+	@SerializedName("real_name")
 	private String realName;
+	@SerializedName("display_name")
 	private String displayName;
 	private String username;
 	private String email;
+	@SerializedName("ldap_id")
 	private String ldapId;
+	@SerializedName("avatar_url")
 	private String avatarURL;
+	@SerializedName("user_url")
 	private String userURL;
 	private String uri;
+	@SerializedName("is_anonymous")
 	private boolean anonymous;
 	private Status status;
 

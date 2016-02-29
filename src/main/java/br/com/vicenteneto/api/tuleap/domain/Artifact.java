@@ -2,16 +2,23 @@ package br.com.vicenteneto.api.tuleap.domain;
 
 import java.util.Date;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Artifact {
 
 	private int id;
+	@SerializedName("html_url")
 	private String htmlURL;
+	@SerializedName("changesets_url")
 	private String changesetsURI;
 	private String uri;
 	private Tracker tracker;
 	private Project project;
+	@SerializedName("submitted_by")
 	private int submittedBy;
+	@SerializedName("submitted_on")
 	private Date submittedOn;
+	@SerializedName("last_modified_date")
 	private Date lastModifiedDate;
 
 	public int getId() {

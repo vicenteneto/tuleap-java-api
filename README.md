@@ -32,7 +32,7 @@ and:
     <dependency>
       <groupId>com.github.vicenteneto</groupId>
       <artifactId>tuleap-java-api</artifactId>
-      <version>v0.2.27</version>
+      <version>v0.2.29</version>
     </dependency>
   </dependencies>
 ```
@@ -47,7 +47,7 @@ repositories {
 and:
 ```gradle
 dependencies {
-    compile 'com.github.vicenteneto:tuleap-java-api:v0.2.27'
+    compile 'com.github.vicenteneto:tuleap-java-api:v0.2.29'
 }
 ```
 

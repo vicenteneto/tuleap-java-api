@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.HttpStatus;
+
 import com.google.gson.Gson;
 import com.mashape.unirest.http.HttpResponse;
 
@@ -67,6 +69,22 @@ public class TuleapServer {
 
 			Project[] projects = gson.fromJson(response.getBody(), Project[].class);
 			return Arrays.asList(projects);
+		} catch (TuleapClientException exception) {
+			throw new TuleapServerException(exception);
+		}
+	}
+
+	public Project getProject(int id) throws TuleapServerException {
+		try {
+			String url = String.format(ConfigurationUtil.getConfiguration("URL_API_PROJECTS_ID"), id);
+			HttpResponse<String> response = tuleapClient.get(url);
+
+			if (response.getStatus() == HttpStatus.SC_NOT_FOUND) {
+				String message = ConfigurationUtil.getConfiguration("PROJECT_NOT_FOUND");
+				throw new TuleapServerException(message);
+			}
+
+			return gson.fromJson(response.getBody(), Project.class);
 		} catch (TuleapClientException exception) {
 			throw new TuleapServerException(exception);
 		}

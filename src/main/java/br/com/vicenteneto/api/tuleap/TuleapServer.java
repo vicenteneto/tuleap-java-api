@@ -1,6 +1,7 @@
 package br.com.vicenteneto.api.tuleap;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -27,8 +28,14 @@ public class TuleapServer {
 		gson = new Gson();
 	}
 
-	public TuleapServer(URI serverURI, String username, String password) {
+	public TuleapServer(URI serverURI, String username, String password) throws URISyntaxException {
 		this();
+
+		if (serverURI.getScheme().equals(ConfigurationUtil.getConfiguration("HTTP"))) {
+			String https = ConfigurationUtil.getConfiguration("HTTPS");
+			serverURI = new URI(https, null, serverURI.getHost(), serverURI.getPort(), null, null, null);
+		}
+
 		tuleapClient = new TuleapClient(serverURI, username, password);
 	}
 
